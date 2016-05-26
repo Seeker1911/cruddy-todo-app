@@ -16,11 +16,14 @@ $(() => {
   // READ: GET data from firebase and display in table
   $.get(API_URL)
     .done((data) => {
-      // for (key in data) {
-      //   addItemToTable(data[key])
-      // }
-      Object.keys(data).forEach((key) => {
-        addItemToTable(data[key])
-      })
+      if (data) {
+        // for (key in data) {
+        //   addItemToTable(data[key])
+        // }
+
+        Object.keys(data).forEach((key) => {
+          addItemToTable(data[key])
+        })
+      }
     })
 })
