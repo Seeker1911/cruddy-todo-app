@@ -1,12 +1,12 @@
 $(() => {
   const API_URL = 'https://cruddy-todo-app.firebaseio.com/task'
 
-  const addItemToTable = (item) => {
-    const row = `<tr>
+  const addItemToTable = (item, id) => {
+    const row = `<tr data-id="${id}">
       <td>${item.task}</td>
       <td>
-        <button class="btn btn-success">Complete</button>
-        <button class="btn btn-danger">Delete</button>
+        <button class="btn btn-success complete">Complete</button>
+        <button class="btn btn-danger delete">Delete</button>
       </td>
     </tr>`
 
@@ -17,12 +17,12 @@ $(() => {
   $.get(`${API_URL}.json`)
     .done((data) => {
       if (data) {
-        // for (key in data) {
-        //   addItemToTable(data[key])
+        // for (id in data) {
+        //   addItemToTable(data[id])
         // }
 
-        Object.keys(data).forEach((key) => {
-          addItemToTable(data[key])
+        Object.keys(data).forEach((id) => {
+          addItemToTable(data[id], id)
         })
       }
     })
@@ -39,5 +39,17 @@ $(() => {
     )
     // TODO: Grab the form text
     // TODO: Make this not refresh the page
+  })
+
+  $('tbody').on('click', '.delete', (e) => {
+    const row =  $(e.target).closest('tr')
+    const id = row.data('id')
+
+    $.ajax({
+      url: `${API_URL}/${id}.json`,
+      method: 'DELETE'
+    }).done(() => {
+      row.remove()
+    })
   })
 })
