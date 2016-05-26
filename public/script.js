@@ -25,10 +25,11 @@ $(() => {
           addItemToTable(data[id], id)
         })
       }
+      // TODO: handle completed tasks
     })
 
   // CREATE: form submit event to POST data to firebase
-  $('form').submit(() => {
+  $('.new form').submit(() => {
     // $.ajax({
     //   url: `${API_URL}.json`,
     //   method: 'POST',
@@ -41,6 +42,7 @@ $(() => {
     // TODO: Make this not refresh the page
   })
 
+  // DELETE: click event on delete to send DELETE to firebase
   $('tbody').on('click', '.delete', (e) => {
     const row =  $(e.target).closest('tr')
     const id = row.data('id')
@@ -51,5 +53,59 @@ $(() => {
     }).done(() => {
       row.remove()
     })
+  })
+
+  if (!'isLoggedIn') {
+    $('.app').show()
+    $('.login').hide()
+  }
+
+  // TODO:
+  // UPDATE: click event on complete to send PUT/PATCH to firebase
+
+  // AUTHENTICATION
+
+  // Initialize firebase connection
+  firebase.initializeApp({
+    apiKey: "AIzaSyBanBIBt_Dc3Bj1qJEH4tMVL95OjBpLma8",
+    authDomain: "cruddy-todo-app.firebaseapp.com",
+    databaseURL: "https://cruddy-todo-app.firebaseio.com",
+    storageBucket: "cruddy-todo-app.appspot.com",
+  })
+
+  // both return promise like object
+  const login = (email, password) => (
+    firebase.auth().signInWithEmailAndPassword(email, password)
+  )
+
+  const register = (user, password) => (
+    firebase.auth().createUserWithEmailAndPassword(user, password)
+  )
+
+  $('.login form').submit((e) => {
+    const form = $(e.target)
+    const email = form.find('input[type="text"]').val()
+    const password = form.find('input[type="password"]').val()
+
+    login(email, password)
+      .then((data) => {
+        console.log(`${data.email} logged in`)
+      })
+      .catch(console.err)
+
+    e.preventDefault()
+  })
+
+  $('input[value="Register"]').click((e) => {
+    const form = $(e.target).closest('form')
+    const email = form.find('input[type="text"]').val()
+    const password = form.find('input[type="password"]').val()
+
+    register(email, password)
+      .then(() => login(email, password))
+      .then(console.log)
+      .catch(console.err)
+
+    e.preventDefault()
   })
 })
