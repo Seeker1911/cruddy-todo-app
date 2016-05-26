@@ -26,4 +26,18 @@ $(() => {
         })
       }
     })
+
+  // CREATE: form submit event to POST data to firebase
+  $('form').submit(() => {
+    // $.ajax({
+    //   url: API_URL,
+    //   method: 'POST',
+    //   data: JSON.stringify({ task: 'I was posted!' })
+    // })
+    $.post(API_URL,
+      JSON.stringify({ task: 'I was posted!' })
+    )
+    // TODO: Grab the form text
+    // TODO: Make this not refresh the page
+  })
 })
