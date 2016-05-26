@@ -1,5 +1,5 @@
 $(() => {
-  const API_URL = 'https://cruddy-todo-app.firebaseio.com/task.json'
+  const API_URL = 'https://cruddy-todo-app.firebaseio.com/task'
 
   const addItemToTable = (item) => {
     const row = `<tr>
@@ -14,7 +14,7 @@ $(() => {
   }
 
   // READ: GET data from firebase and display in table
-  $.get(API_URL)
+  $.get(`${API_URL}.json`)
     .done((data) => {
       if (data) {
         // for (key in data) {
@@ -30,11 +30,11 @@ $(() => {
   // CREATE: form submit event to POST data to firebase
   $('form').submit(() => {
     // $.ajax({
-    //   url: API_URL,
+    //   url: `${API_URL}.json`,
     //   method: 'POST',
     //   data: JSON.stringify({ task: 'I was posted!' })
     // })
-    $.post(API_URL,
+    $.post(`${API_URL}.json`,
       JSON.stringify({ task: 'I was posted!' })
     )
     // TODO: Grab the form text
