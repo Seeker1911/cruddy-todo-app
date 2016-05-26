@@ -28,7 +28,7 @@ $(() => {
     })
 
   // CREATE: form submit event to POST data to firebase
-  $('form').submit(() => {
+  $('.new form').submit(() => {
     // $.ajax({
     //   url: `${API_URL}.json`,
     //   method: 'POST',
@@ -52,4 +52,12 @@ $(() => {
       row.remove()
     })
   })
+
+  firebase.initializeApp({
+    apiKey: "AIzaSyBanBIBt_Dc3Bj1qJEH4tMVL95OjBpLma8",
+    authDomain: "cruddy-todo-app.firebaseapp.com",
+    databaseURL: "https://cruddy-todo-app.firebaseio.com",
+    storageBucket: "cruddy-todo-app.appspot.com",
+  })
+
 })

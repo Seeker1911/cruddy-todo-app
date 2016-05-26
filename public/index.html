@@ -8,26 +8,38 @@
   <body>
     <div class="container">
       <h1>Cruddy Todo App</h1>
-      <div class="add">
-        <form class="form-inline">
-          <input class="form-control" type="text" placeholder="add a todo item">
-          <input class="btn btn-primary" type="submit">
+      <div class="login">
+        <h2>Login</h2>
+        <form>
+          <input class="form-control" type="text" placeholder="user@example.com">
+          <input class="form-control" type="password" placeholder="P@s$w0rD">
+          <input class="btn btn-warning" type="button" value="Register">
+          <input class="btn btn-primary" type="submit" value="Login">
         </form>
       </div>
-      <div class="index">
-        <table>
-          <thead>
-            <tr>
-              <th>Task</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+      <div class="app">
+        <div class="add">
+          <form class="form-inline">
+            <input class="form-control" type="text" placeholder="add a todo item">
+            <input class="btn btn-primary" type="submit">
+          </form>
+        </div>
+        <div class="index">
+          <table>
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <script src="vendor/jquery/dist/jquery.min.js"></script>
+    <script src="vendor/firebase/firebase.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
