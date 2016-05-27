@@ -1,6 +1,7 @@
 $(() => {
-  const API_URL = 'https://cruddy-todo-app.firebaseio.com/task'
+  const API_URL = 'https://cruddy-todo-app.firebaseio.com'
   let token = null
+  let userId = null
 
   const addItemToTable = (item, id) => {
     const row = `<tr data-id="${id}">
@@ -15,7 +16,7 @@ $(() => {
   }
 
   const getTasks = () => {
-    $.get(`${API_URL}.json?auth=${token}`)
+    $.get(`${API_URL}/${userId}/task.json?auth=${token}`)
       .done((data) => {
         if (data) {
           // for (id in data) {
@@ -30,25 +31,27 @@ $(() => {
   }
 
   // CREATE: form submit event to POST data to firebase
-  $('.new form').submit(() => {
+  $('.new form').submit((e) => {
     // $.ajax({
     //   url: `${API_URL}.json`,
     //   method: 'POST',
     //   data: JSON.stringify({ task: 'I was posted!' })
     // })
-    $.post(`${API_URL}.json?auth=${token}`,
+
+    $.post(`${API_URL}/${userId}/task.json?auth=${token}`,
       JSON.stringify({ task: 'I was posted!' })
     )
+
     // TODO: Grab the form text
     // TODO: Make this not refresh the page
   })
 
   $('tbody').on('click', '.delete', (e) => {
     const row =  $(e.target).closest('tr')
-    const id = row.data('id')
+    const taskId = row.data('id')
 
     $.ajax({
-      url: `${API_URL}/${id}.json?auth=${token}`,
+      url: `${API_URL}/${userId}/task/${taskId}.json?auth=${token}`,
       method: 'DELETE'
     }).done(() => {
       row.remove()
@@ -101,6 +104,8 @@ $(() => {
     if (user) {
       // logged in
       $('.app').show()
+
+      userId = user.uid
 
       user.getToken()
         .then(t => token = t)
