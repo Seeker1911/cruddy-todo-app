@@ -1,18 +1,21 @@
 $(() => {
-  const API_URL = 'https://cruddy-todo-app.firebaseio.com'
+  const API_URL = 'https://cruddy-3ed9e.firebaseio.com'
   let token = null
   let userId = null
 
   const addItemToTable = (item, id) => {
-    const row = `<tr data-id="${id}">
+    const row =$(`<tr data-id="${id}">
       <td>${item.task}</td>
       <td>
         <button class="btn btn-success complete">Complete</button>
         <button class="btn btn-danger delete">Delete</button>
       </td>
-    </tr>`
+    </tr>`)
 
     $('tbody').append(row)
+    if (item.completed) {
+      row.css('text-decoration', 'line-through')
+    }
   }
 
   const getTasks = () => {
@@ -38,8 +41,9 @@ $(() => {
     //   data: JSON.stringify({ task: 'I was posted!' })
     // })
 
+      const userInput = $('.userText').val();
     $.post(`${API_URL}/${userId}/task.json?auth=${token}`,
-      JSON.stringify({ task: 'I was posted!' })
+      JSON.stringify({ task: userInput, completed: false})
     )
 
     // TODO: Grab the form text
@@ -58,11 +62,23 @@ $(() => {
     })
   })
 
+  $('tbody').on('click', '.complete', (e) => {
+    const row =  $(e.target).closest('tr')
+    const taskId = row.data('id')
+
+    $.ajax({
+      url: `${API_URL}/${userId}/task/${taskId}.json?auth=${token}`,
+      method: 'PATCH',
+      data: JSON.stringify({ completed: true })
+    }).done(() => {
+      row.css('text-decoration', 'line-through');
+    })
+  })
   firebase.initializeApp({
-    apiKey: "AIzaSyBanBIBt_Dc3Bj1qJEH4tMVL95OjBpLma8",
-    authDomain: "cruddy-todo-app.firebaseapp.com",
-    databaseURL: "https://cruddy-todo-app.firebaseio.com",
-    storageBucket: "cruddy-todo-app.appspot.com",
+    apiKey: "AIzaSyDEst_M1pyP2ft_HrEzvRYjTNmyMXYVlVU",
+    authDomain: "cruddy-3ed9e.firebaseapp.com",
+    databaseURL: "https://cruddy-3ed9e.firebaseio.com",
+    storageBucket: "cruddy-3ed9e.appspot.com",
   })
 
   // both return promise like objects
