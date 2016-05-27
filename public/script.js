@@ -100,10 +100,17 @@ $(() => {
     e.preventDefault()
   })
 
+  $('.logout').click(() => {
+    firebase.auth().signOut()
+  })
+
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       // logged in
+      $('.login').hide()
       $('.app').show()
+
+      $('.logged_in_user').text(user.email)
 
       userId = user.uid
 
@@ -113,7 +120,9 @@ $(() => {
 
     } else {
       // logged out
+      $('.app').hide()
       $('.login').show()
+      $('tbody').empty()
     }
   })
 
